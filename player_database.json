@@ -1,0 +1,66 @@
+[
+    {
+        "name": "\u5ca1\u672c\u3000\u4e00\u771f",
+        "position": "DF",
+        "dob": "2003-09-19",
+        "category": "J2",
+        "team": "\u5c71\u5f62",
+        "height": 175,
+        "weight": 70,
+        "skills": {
+            "speed": 75,
+            "technique": 70,
+            "physical": 70,
+            "mental": 50
+        },
+        "notes": ""
+    },
+    {
+        "name": "\u91ce\u5dbd\u3000\u5bdb\u4e5f",
+        "position": "DF",
+        "dob": "2000-12-03",
+        "category": "J2",
+        "team": "\u5c71\u5f62",
+        "height": 173,
+        "weight": 66,
+        "skills": {
+            "speed": 65,
+            "technique": 70,
+            "physical": 70,
+            "mental": 65
+        },
+        "notes": ""
+    },
+    {
+        "name": "\u6885\u6728\u3000\u601c",
+        "position": "DF",
+        "dob": "2005-08-25",
+        "category": "J2",
+        "team": "\u4eca\u6cbb",
+        "height": 171,
+        "weight": 65,
+        "skills": {
+            "speed": 60,
+            "technique": 71,
+            "physical": 60,
+            "mental": 60
+        },
+        "notes": "U18\u65e5\u672c\u4ee3\u8868"
+    },
+    {
+        "name": "\u9ad8\u6728\u3000\u53cb\u4e5f",
+        "position": "DF",
+        "dob": "1998-05-23",
+        "category": "J2",
+        "team": "\u5fb3\u5cf6",
+        "height": 175,
+        "weight": 70,
+        "skills": {
+            "speed": 60,
+            "technique": 60,
+            "physical": 65,
+            "mental": 65
+        },
+        "notes": ""
+    }
+]
