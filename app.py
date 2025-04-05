@@ -32,7 +32,6 @@ page = st.sidebar.radio(
     ["🏠 ホーム", "🔍 検索", "✏️ 編集・削除", "➕ 選手追加"]
 )
 
-# データの読み込み
 players = load_data()
 
 # ================================
@@ -57,12 +56,11 @@ if page == "🏠 ホーム":
                 "技術": p["skills"]["technique"],
                 "フィジカル": p["skills"]["physical"],
                 "メンタル": p["skills"]["mental"],
+                "獲得希望度": p.get("priority", "未設定"),
                 "身長(cm)": p["height"],
                 "体重(kg)": p["weight"],
                 "備考": p["notes"],
             })
-
-        # テーブル表示
         st.dataframe(data, use_container_width=True)
 
 # ================================
@@ -71,13 +69,11 @@ if page == "🏠 ホーム":
 elif page == "🔍 検索":
     st.title("🔍 選手の検索")
 
-    # フィルター条件
     position_filter = st.selectbox("ポジションで絞り込み", ["すべて", "GK", "DF", "MF", "FW"])
     category_filter = st.selectbox("カテゴリで絞り込み", ["すべて", "J1", "J2", "J3"])
     max_age_filter = st.number_input("最大年齢", min_value=15, max_value=40, value=25)
     min_speed_filter = st.slider("最低スピード", 1, 100, 50)
 
-    # フィルタ適用
     filtered_players = [
         p for p in players
         if (position_filter == "すべて" or p["position"] == position_filter)
@@ -86,7 +82,6 @@ elif page == "🔍 検索":
         and p["skills"]["speed"] >= min_speed_filter
     ]
 
-    # 検索結果表示
     if not filtered_players:
         st.warning("条件に合う選手が見つかりません。")
     else:
@@ -103,6 +98,7 @@ elif page == "🔍 検索":
                 "技術": p["skills"]["technique"],
                 "フィジカル": p["skills"]["physical"],
                 "メンタル": p["skills"]["mental"],
+                "獲得希望度": p.get("priority", "未設定"),
                 "身長(cm)": p["height"],
                 "体重(kg)": p["weight"],
                 "備考": p["notes"],
@@ -119,14 +115,11 @@ elif page == "✏️ 編集・削除":
         st.warning("選手データがありません。")
     else:
         selected_name = st.selectbox("編集・削除する選手を選択", [p["name"] for p in players])
-
-        # 選手情報の取得
         selected_player = next((p for p in players if p["name"] == selected_name), None)
 
         if selected_player:
             st.write("✅ **選手情報の編集**")
 
-            # 編集フォーム
             name = st.text_input("選手名", value=selected_player["name"])
             position = st.selectbox("ポジション", ["GK", "DF", "MF", "FW"], index=["GK", "DF", "MF", "FW"].index(selected_player["position"]))
             dob = st.date_input("生年月日", value=datetime.strptime(selected_player["dob"], "%Y-%m-%d"))
@@ -143,7 +136,8 @@ elif page == "✏️ 編集・削除":
             weight = st.number_input("体重 (kg)", min_value=30, max_value=150, value=selected_player["weight"])
             notes = st.text_area("備考", value=selected_player["notes"])
 
-            # 更新処理
+            priority = st.selectbox("獲得希望度", ["◎", "◯", "△", "要チェック"], index=["◎", "◯", "△", "要チェック"].index(selected_player.get("priority", "要チェック")))
+
             if st.button("✅ 更新"):
                 updated_player = {
                     "name": name,
@@ -160,16 +154,14 @@ elif page == "✏️ 編集・削除":
                         "mental": mental,
                     },
                     "notes": notes,
+                    "priority": priority,
                 }
-
-                # 選手情報の更新
                 index = players.index(selected_player)
                 players[index] = updated_player
                 save_data(players)
                 st.success(f"✅ {name} の情報を更新しました！")
                 st.rerun()
 
-            # 削除処理
             if st.button("❌ 削除"):
                 players.remove(selected_player)
                 save_data(players)
@@ -198,6 +190,8 @@ elif page == "➕ 選手追加":
     weight = st.number_input("体重 (kg)", min_value=30, max_value=150, value=70)
     notes = st.text_area("備考")
 
+    priority = st.selectbox("獲得希望度", ["◎", "◯", "△", "要チェック"])
+
     if st.button("✅ 追加"):
         new_player = {
             "name": name,
@@ -214,6 +208,7 @@ elif page == "➕ 選手追加":
                 "mental": mental,
             },
             "notes": notes,
+            "priority": priority,
         }
 
         players.append(new_player)
